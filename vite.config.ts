@@ -42,6 +42,10 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
+            // Keep React and React-DOM together in a single chunk
+            if (id.includes("react") || id.includes("react-dom")) {
+              return "react-vendor";
+            }
             if (id.includes("recharts")) return "recharts";
             if (id.includes("framer-motion")) return "framer";
             if (id.includes("@tanstack")) return "tanstack";
@@ -51,7 +55,6 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("lucide-react")) return "lucide";
             if (id.includes("cmdk")) return "cmdk";
             if (id.includes("embla-carousel-react")) return "embla";
-            if (id.includes("react")) return "react-vendor";
             return "vendor";
           }
           if (id.includes("src/pages/industries/")) return "industries-pages";
